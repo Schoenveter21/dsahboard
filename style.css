@@ -1,0 +1,26 @@
+/* Algemene stijlen */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Container voor grafieken */
+.chart-container {
+    display: flex;
+    justify-content: space-around; /* Zorgt ervoor dat de grafieken gelijkmatig worden verdeeld */
+    padding: 20px;
+}
+
+/* Stijlen voor individuele grafieken */
+.chart {
+    width: 45%; /* Zorgt ervoor dat elke grafiek ongeveer de helft van de container breedte in beslag neemt */
+    height: 500px; /* Hoogte van de grafiek */
+}
+
+#curve_chart {
+    width: 90%; /* Zorg ervoor dat de voortgangsgrafiek breed genoeg is */
+    height: 500px; /* Hoogte van de voortgangsgrafiek */
+    margin: 20px auto; /* Zorg ervoor dat de grafiek gecentreerd is */
+}
