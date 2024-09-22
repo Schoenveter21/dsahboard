@@ -1,19 +1,18 @@
 <?php
-// Stel de content-type header in op JSON, zodat de browser weet dat het een JSON-antwoord is
+// Stel de content-type header in op JSON
 header('Content-Type: application/json');
 
-// Databaseconfiguratie: verbindingsinstellingen voor de MySQL-database
-$servername = "localhost"; // De server waarop de database draait
-$username = "root"; // Gebruikersnaam voor de database
-$password = ""; // Wachtwoord voor de database
-$dbname = "mydb"; // Naam van de database
+// Databaseconfiguratie
+$servername = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbname = "mydb"; 
 
 // Maak verbinding met de MySQL-database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Controleer of de verbinding is gelukt
 if ($conn->connect_error) {
-    // Als de verbinding mislukt, geef een foutmelding terug in JSON-formaat en stop de uitvoering
     die(json_encode(array('error' => $conn->connect_error)));
 }
 
@@ -31,34 +30,33 @@ $result = $conn->query($sql);
 // Haal de rijen op als een associatieve array
 $data = $result->fetch_assoc();
 
-// Bereken de behaalde en nog te doen scores
-$behaalde_score = $data['behaalde_score']; // De behaalde score uit de query
-$nog_te_doen_score = $data['totale_formatieve_score'] - $behaalde_score; // Resterende score om te behalen
+// Bereken de behaalde score
+$behaalde_score = $data['behaalde_score'] ?? 0; // De behaalde score uit de query, standaard op 0 als null
 
-// Bereken percentages van de behaalde en nog te doen score
-$behaalde_percentage = ($behaalde_score / $total_formatieve_score) * 100; // Percentage behaalde score
-$nog_te_doen_percentage = 100 - $behaalde_percentage; // Percentage resterende score
+// Bereken de nog te doen score
+$nog_te_doen_score = $total_formatieve_score - $behaalde_score; 
 
-// Indien de behaalde score meer dan 100% is, stel deze in op maximaal 100%
-if ($behaalde_percentage > 100) {
-    $behaalde_percentage = 100; // Beperken tot 100%
-    $nog_te_doen_percentage = 0; // Geen resterende score
+// Zorg ervoor dat de scores niet negatief zijn
+if ($nog_te_doen_score < 0) {
+    $nog_te_doen_score = 0;
 }
 
-// Als het percentage voor nog te doen lager is dan 0, stel dit in op 0
-if ($nog_te_doen_percentage < 0) {
-    $nog_te_doen_percentage = 0; // Beperken tot minimaal 0%
+// Bereken percentages
+$behaalde_percentage = ($total_formatieve_score > 0) ? ($behaalde_score / $total_formatieve_score) * 100 : 0; 
+$nog_te_doen_percentage = ($total_formatieve_score > 0) ? ($nog_te_doen_score / $total_formatieve_score) * 100 : 0; 
+
+// Zorg ervoor dat de percentages bij elkaar exact 100% zijn
+$total_percentage = $behaalde_percentage + $nog_te_doen_percentage;
+if ($total_percentage > 100) {
+    $nog_te_doen_percentage = 100 - $behaalde_percentage; 
 }
 
-// Zorg ervoor dat de percentages bij elkaar opgeteld exact 100% zijn
-if ($behaalde_percentage + $nog_te_doen_percentage > 100) {
-    $nog_te_doen_percentage = 100 - $behaalde_percentage; // Correctie zodat het totaal 100% is
-}
-
-// Maak een array met de behaalde en nog te doen percentages
+// Maak een array met de behaalde en nog te doen scores en percentages
 $data = array(
-    'behaald' => $behaalde_percentage, // Percentage behaalde toetsen
-    'nog_te_doen' => $nog_te_doen_percentage // Percentage nog te doen toetsen
+    'behaald' => $behaalde_score,
+    'behaald_percentage' => round($behaalde_percentage, 2), // Rond af op 2 decimalen
+    'nog_te_doen' => $nog_te_doen_score,
+    'nog_te_doen_percentage' => round($nog_te_doen_percentage, 2) // Rond af op 2 decimalen
 );
 
 // Sluit de verbinding met de database

@@ -1,133 +1,122 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <!-- Instellen van de document taal naar Nederlands -->
     <meta charset="UTF-8">
-    <!-- Zorgt ervoor dat de website zich aanpast aan de schermgrootte van het apparaat -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Titel van de pagina in de browser tab -->
     <title>Studie Dashboard</title>
-    <!-- Koppeling naar een extern CSS-bestand voor de stijl -->
+    <!-- Link naar de externe CSS-stijl -->
     <link rel="stylesheet" href="style.css">
-    <!-- Koppeling naar jQuery library om AJAX-aanroepen te kunnen doen -->
+    <!-- Link naar jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Koppeling naar de Google Charts API voor grafieken -->
+    <!-- Link naar Google Charts API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <!-- Script waarin de logica voor het tekenen van de grafieken staat -->
     <script type="text/javascript">
-        // Google Charts API laden en de pakketten voor corechart en line activeren
+        // Laad de Google Charts packages
         google.charts.load('current', {'packages':['corechart', 'line']});
-        // Functie instellen die wordt aangeroepen zodra Google Charts geladen is
+        // Stel de callback in om de grafieken te tekenen wanneer de libraries geladen zijn
         google.charts.setOnLoadCallback(drawCharts);
 
-        // Functie voor het tekenen van de grafieken
         function drawCharts() {
-            // AJAX-aanroep om data op te halen voor formatieve toetsen
+            // AJAX-aanroep voor formatieve toetsen
             $.ajax({
-                url: 'formatief.php', // Het bestand dat data voor formatieve toetsen levert
-                dataType: 'json', // Verwacht JSON-data als antwoord
-                success: function(data) {
-                    // Data ontvangen, zet deze om in een grafiek-vriendelijk formaat
-                    console.log("Formatieve toetsen data:", data); // Controleer de data in de console
+                url: 'formatief.php', // URL van de PHP-script die de data levert
+                dataType: 'json', // Verwachte datatypes
+                success: function(data) { // Bij succesvolle aanroep
+                    console.log("Formatieve toetsen data:", data); // Log de ontvangen data
+
+                    // Maak de data voor de piechart
                     var formatieveData = google.visualization.arrayToDataTable([
-                        ['Task', 'Percentage'], // Kolomnamen voor de grafiek
-                        ['Behaald', data.behaald], // Percentage behaald
-                        ['Nog te doen', data.nog_te_doen] // Percentage nog te doen
+                        ['Task', 'Aantal'], 
+                        ['Behaald', parseFloat(data.behaald)], // Zorg ervoor dat dit een nummer is
+                        ['Nog te doen', parseFloat(data.nog_te_doen)] // Zorg ervoor dat dit een nummer is
                     ]);
-                    // Opties instellen voor de formatieve toetsen grafiek
+
+                    // Stijl en opties voor de grafiek
                     var options1 = {
-                        title: 'Formatieve Toetsen', // Titel van de grafiek
-                        pieHole: 0.4, // Maak er een donutgrafiek van
+                        title: 'Formatieve Toetsen',
+                        pieHole: 0.4, // Maak een donut-grafiek
                         slices: {
-                            0: { offset: 0.1, color: '#4CAF50' }, // Groen voor behaald
-                            1: { color: '#FFC107' } // Geel voor nog te doen
-                        },
+                            0: { offset: 0.1, color: '#4CAF50' }, // Kleur voor 'Behaald'
+                            1: { color: '#FFC107' } // Kleur voor 'Nog te doen'
+                        }
                     };
-                    // Maak een nieuwe PieChart in het element met id 'donutchart1'
+                    // Maak de grafiek en teken deze
                     var chart1 = new google.visualization.PieChart(document.getElementById('donutchart1'));
-                    // Teken de grafiek met de data en opties
                     chart1.draw(formatieveData, options1);
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Foutafhandeling als de AJAX-aanroep mislukt
+                error: function(jqXHR, textStatus, errorThrown) { // Bij fout
                     console.log("Error in formatieve toetsen AJAX call:", textStatus, errorThrown);
                 }
             });
 
-            // AJAX-aanroep om data op te halen voor summatieve toetsen
+            // AJAX-aanroep voor summatieve toetsen
             $.ajax({
-                url: 'summatief.php', // Het bestand dat data voor summatieve toetsen levert
-                dataType: 'json', // Verwacht JSON-data als antwoord
-                success: function(data) {
-                    // Data ontvangen en omzetten naar het juiste formaat
+                url: 'summatief.php', // URL van de PHP-script die de data levert
+                dataType: 'json', // Verwachte datatypes
+                success: function(data) { // Bij succesvolle aanroep
+                    console.log("Summatieve toetsen data:", data); // Log de ontvangen data
+
+                    // Maak de data voor de piechart
                     var summatieveData = google.visualization.arrayToDataTable([
-                        ['Task', 'Percentage'], // Kolomnamen voor de grafiek
-                        ['Behaald', data.behaald], // Percentage behaald
-                        ['Nog te doen', data.nog_te_doen] // Percentage nog te doen
+                        ['Task', 'Aantal'],
+                        ['Behaald', parseFloat(data.behaald)], // Zorg ervoor dat dit een nummer is
+                        ['Nog te doen', parseFloat(data.nog_te_doen)] // Zorg ervoor dat dit een nummer is
                     ]);
 
-                    // Opties instellen voor de summatieve toetsen grafiek
+                    // Stijl en opties voor de grafiek
                     var options2 = {
-                        title: 'Summatieve Toetsen', // Titel van de grafiek
-                        pieHole: 0.4, // Maak er een donutgrafiek van
+                        title: 'Summatieve Toetsen',
+                        pieHole: 0.4, // Maak een donut-grafiek
                         slices: {
-                            0: { offset: 0.1, color: '#2196F3' }, // Blauw voor behaald
-                            1: { color: '#FF5722' } // Oranje voor nog te doen
-                        },
-                        pieSliceText: 'label', // Toon labels op de segmenten
-                        pieSliceTextStyle: {
-                            color: 'black', // Zwarte kleur voor de tekst
+                            0: { offset: 0.1, color: '#2196F3' }, // Kleur voor 'Behaald'
+                            1: { color: '#FF5722' } // Kleur voor 'Nog te doen'
                         }
                     };
-                    // Maak een nieuwe PieChart in het element met id 'donutchart2'
+                    // Maak de grafiek en teken deze
                     var chart2 = new google.visualization.PieChart(document.getElementById('donutchart2'));
-                    // Teken de grafiek met de data en opties
                     chart2.draw(summatieveData, options2);
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Foutafhandeling als de AJAX-aanroep mislukt
+                error: function(jqXHR, textStatus, errorThrown) { // Bij fout
                     console.log("Error in summatieve toetsen AJAX call:", textStatus, errorThrown);
                 }
             });
 
-            // AJAX-aanroep om data op te halen voor de voortgangsgrafiek
+            // AJAX-aanroep voor de voortgangsgrafiek
             $.ajax({
-                url: 'data.php', // Het bestand dat voortgangsdata levert
-                dataType: 'json', // Verwacht JSON-data als antwoord
-                success: function(data) {
-                    // Maak een nieuwe DataTable voor de voortgangsdata
+                url: 'data.php', // URL van de PHP-script die de data levert
+                dataType: 'json', // Verwachte datatypes
+                success: function(data) { // Bij succesvolle aanroep
                     var voortgangData = new google.visualization.DataTable();
-                    voortgangData.addColumn('string', 'Maand'); // Voeg een kolom toe voor de maanden
-                    voortgangData.addColumn('number', 'Aantal behaalde toetsen en examens'); // Voeg een kolom toe voor het aantal behaalde toetsen
+                    // Definieer de kolommen voor de DataTable
+                    voortgangData.addColumn('string', 'Maand');
+                    voortgangData.addColumn('number', 'Aantal behaalde toetsen en examens');
 
-                    // Voeg rijen toe met de opgehaalde data
+                    // Vul de DataTable met de ontvangen data
                     data.forEach(function(row) {
-                        voortgangData.addRow([row.maand, parseInt(row.aantal)]); // Maand en aantal toetsen
+                        voortgangData.addRow([row.maand, parseInt(row.aantal)]); // Voeg elke maand en het aantal toe
                     });
 
-                    // Opties instellen voor de voortgangsgrafiek
+                    // Stijl en opties voor de lijn grafiek
                     var options3 = {
-                        title: 'Voortgang 2023-2024', // Titel van de grafiek
-                        curveType: 'function', // Maak een vloeiende curve in de grafiek
-                        legend: { position: 'bottom' }, // Plaats de legenda onderaan
+                        title: 'Voortgang 2023-2024',
+                        curveType: 'function', // Maak de lijn vloeiend
+                        legend: { position: 'bottom' }, // Plaats de legenda onder de grafiek
                         hAxis: {
-                            title: 'Maand', // X-as label
+                            title: 'Maand', // Titel van de horizontale as
                         },
                         vAxis: {
-                            title: 'Aantal toetsen en examens', // Y-as label
-                            minValue: 0 // Start de y-as bij 0
+                            title: 'Aantal toetsen en examens', // Titel van de verticale as
+                            minValue: 0 // Minimumwaarde van de verticale as
                         },
                         width: 1820, // Breedte van de grafiek
                         height: 500 // Hoogte van de grafiek
                     };
 
-                    // Maak een nieuwe Line Chart in het element met id 'curve_chart'
+                    // Maak de grafiek en teken deze
                     var chart3 = new google.charts.Line(document.getElementById('curve_chart'));
-                    // Teken de grafiek met de data en opties
                     chart3.draw(voortgangData, google.charts.Line.convertOptions(options3));
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Foutafhandeling als de AJAX-aanroep mislukt
+                error: function(jqXHR, textStatus, errorThrown) { // Bij fout
                     console.log("Error in voortgang AJAX call:", textStatus, errorThrown);
                 }
             });
@@ -135,15 +124,11 @@
     </script>
 </head>
 <body>
-    
-    <!-- Container voor de donut grafieken -->
+    <!-- Container voor de grafieken -->
     <div class="chart-container">
-        <!-- Donut grafiek voor formatieve toetsen -->
-        <div id="donutchart1" class="chart"></div>
-        <!-- Donut grafiek voor summatieve toetsen -->
-        <div id="donutchart2" class="chart"></div>
+        <div id="donutchart1" class="chart"></div> <!-- Grafiek voor formatieve toetsen -->
+        <div id="donutchart2" class="chart"></div> <!-- Grafiek voor summatieve toetsen -->
     </div>
-    <!-- Voortgangsgrafiek -->
-    <div id="curve_chart" class="chart"></div>
+    <div id="curve_chart" class="chart"></div> <!-- Grafiek voor voortgang -->
 </body>
 </html>

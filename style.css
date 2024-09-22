@@ -19,8 +19,22 @@ body {
     height: 500px; /* Hoogte van de grafiek */
 }
 
+/* Stijlen voor de voortgangsgrafiek */
 #curve_chart {
     width: 90%; /* Zorg ervoor dat de voortgangsgrafiek breed genoeg is */
     height: 500px; /* Hoogte van de voortgangsgrafiek */
     margin: 20px auto; /* Zorg ervoor dat de grafiek gecentreerd is */
 }
+
+/* Optionele extra stijlen voor een nettere uitstraling */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.chart-container div {
+    border-radius: 10px; /* Hoekafgeronde grafieken */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Schaduw voor diepte */
+    background-color: white; /* Achtergrondkleur voor grafieken */
+}
+
