@@ -4,37 +4,49 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Welkomsttekst */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 20px;
+    color: #00796B; /* Donkergroen */
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #00796B;
 }
 
 /* Container voor grafieken */
 .chart-container {
     display: flex;
-    justify-content: space-around; /* Zorgt ervoor dat de grafieken gelijkmatig worden verdeeld */
+    justify-content: space-around;
     padding: 20px;
 }
 
 /* Stijlen voor individuele grafieken */
 .chart {
-    width: 45%; /* Zorgt ervoor dat elke grafiek ongeveer de helft van de container breedte in beslag neemt */
-    height: 500px; /* Hoogte van de grafiek */
+    width: 45%;
+    height: 400px;
 }
 
 /* Stijlen voor de voortgangsgrafiek */
 #curve_chart {
-    width: 90%; /* Zorg ervoor dat de voortgangsgrafiek breed genoeg is */
-    height: 500px; /* Hoogte van de voortgangsgrafiek */
-    margin: 20px auto; /* Zorg ervoor dat de grafiek gecentreerd is */
+    width: 60%;  /* Maak de grafiek smaller */
+    height: 300px;  /* Maak de grafiek minder hoog */
+    margin: 20px auto;
+    margin-right: auto;
+    margin-left: 50px; /* Extra marge aan de linkerkant */
 }
 
-/* Optionele extra stijlen voor een nettere uitstraling */
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
-
+/* Optionele stijlen voor visuele elementen */
 .chart-container div {
-    border-radius: 10px; /* Hoekafgeronde grafieken */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Schaduw voor diepte */
-    background-color: white; /* Achtergrondkleur voor grafieken */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
-
