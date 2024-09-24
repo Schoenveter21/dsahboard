@@ -4,7 +4,7 @@ if (!function_exists('connectDatabase')) {
         $servername = "localhost"; 
         $username = "root"; 
         $password = ""; 
-        $dbname = "mydb"; 
+        $dbname = "dashboard"; 
 
         // Maak verbinding met de MySQL-database via MySQLi
         $conn = new mysqli($servername, $username, $password, $dbname);

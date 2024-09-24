@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studie Dashboard</title>
-    <!-- Link naar de externe CSS-stijl -->
     <link rel="stylesheet" href="style.css">
-    <!-- Link naar jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Link naar Google Charts API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         // Laad de Google Charts packages
         google.charts.load('current', {'packages':['corechart', 'line']});
-        // Stel de callback in om de grafieken te tekenen wanneer de libraries geladen zijn
         google.charts.setOnLoadCallback(drawCharts);
 
         function drawCharts() {
@@ -22,7 +18,6 @@
                 url: 'formatief.php',
                 dataType: 'json',
                 success: function(data) {
-                    console.log("Formatieve toetsen data:", data);
                     var formatieveData = google.visualization.arrayToDataTable([
                         ['Task', 'Aantal'], 
                         ['Behaald', parseFloat(data.behaald)], 
@@ -44,12 +39,11 @@
                 }
             });
 
-            // AJAX-aanroep voor summatieve toetsen
+            // AJAX-aanroep voor summatieve toetsen (donutgrafiek)
             $.ajax({
                 url: 'summatief.php',
                 dataType: 'json',
                 success: function(data) {
-                    console.log("Summatieve toetsen data:", data);
                     var summatieveData = google.visualization.arrayToDataTable([
                         ['Task', 'Aantal'],
                         ['Behaald', parseFloat(data.behaald)],
@@ -70,6 +64,26 @@
                     console.log("Error in summatieve toetsen AJAX call:", textStatus, errorThrown);
                 }
             });
+
+            $.ajax({
+    url: 'summatiefcijfer.php',
+    dataType: 'json',
+    success: function(data) {
+        var summatieveCijfersText = '<h3>Je cijfers:</h3><div class="cards-container">';
+        data.forEach(function(row) {
+            summatieveCijfersText += `
+                <div class="card">
+                    <p>${row.datum}</p>  <!-- Datum toegevoegd -->
+                    <p>${row.score}</p>
+                </div>`;
+        });
+        summatieveCijfersText += '</div>'; // Sluit de kaarten container
+        $('#summatieve-cijfers-lijst').html(summatieveCijfersText);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log("Error in summatieve cijfers AJAX call:", textStatus, errorThrown);
+    }
+});
 
             // AJAX-aanroep voor de voortgangsgrafiek
             $.ajax({
@@ -115,5 +129,8 @@
         <div id="donutchart2" class="chart"></div>
     </div>
     <div id="curve_chart" class="chart"></div>
+
+    <div id="summatieve-cijfers-lijst" class="cards-container"></div>
+
 </body>
 </html>

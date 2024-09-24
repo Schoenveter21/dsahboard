@@ -50,3 +50,28 @@ h2 {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: white;
 }
+
+/* Container voor de kaarten */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px; /* Verhoog deze waarde om de afstand aan te passen */
+}
+
+/* Stijlen voor individuele kaarten */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 150px; /* Pas de breedte aan naar wens */
+    font-size: 1.5em; /* Pas de tekstgrootte aan naar wens */
+}
+
+#summatieve-cijfers-lijst {
+    text-align: center;
+    margin-top: 200px;  /* Verlaag deze waarde om meer afstand te creëren */
+}
