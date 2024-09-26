@@ -1,77 +1,124 @@
 /* Algemene stijlen */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: Arial, sans-serif; /* Standaard lettertype voor de hele pagina */
+    margin: 0; /* Verwijder standaardmarges van de body */
+    padding: 0; /* Verwijder standaardpadding van de body */
+    background-color: #f4f4f4; /* Stel een lichte achtergrondkleur in */
+    color: #333; /* Donkere kleur voor de tekst */
+    box-sizing: border-box; /* Inclusief padding en border in de totale breedte/berekening van elementen */
 }
 
 /* Welkomsttekst */
+h1, h2 {
+    text-align: center; /* Zet de tekst in het midden van het scherm */
+    margin: 20px 0; /* Boven- en ondermarge van 20px voor h1 en h2 */
+    color: #00796B; /* Donkergroene kleur voor de tekst */
+}
+
 h1 {
-    text-align: center;
-    font-size: 2.5em;
-    margin-top: 20px;
-    color: #00796B; /* Donkergroen */
+    font-size: 2em; /* Grotere tekst voor de hoofdtitel */
 }
 
 h2 {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #00796B;
+    font-size: 1.2em; /* Iets kleinere tekst voor de subtitel */
 }
 
 /* Container voor grafieken */
 .chart-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
+    display: flex; /* Gebruik flexbox voor de opmaak */
+    flex-direction: row; /* Plaats de items naast elkaar (horizontale richting) */
+    justify-content: space-around; /* Zorg ervoor dat de grafieken gelijkmatig worden verdeeld */
+    padding: 20px; /* Voegt wat ruimte rond de container toe */
+    flex-wrap: wrap; /* Zorgt ervoor dat de grafieken onder elkaar komen als er te weinig ruimte is */
 }
 
-/* Stijlen voor individuele grafieken */
 .chart {
-    width: 45%;
-    height: 400px;
+    flex: 1 1 45%; /* Grafieken nemen 45% van de beschikbare ruimte in, maar krimpen indien nodig */
+    min-width: 300px; /* Stel een minimale breedte van 300px in voor grafieken */
+    height: 300px; /* Stel de hoogte van de grafieken in op 300px */
+    margin: 10px; /* Ruimte tussen de grafieken */
+    background-color: white; /* Witte achtergrond voor de grafieken */
+    border-radius: 10px; /* Rond de hoeken van de grafieken af */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtiele schaduw voor een 3D-effect */
 }
-
-/* Stijlen voor de voortgangsgrafiek */
+/* Voortgangsgrafiek */
 #curve_chart {
-    width: 60%;  /* Maak de grafiek smaller */
-    height: 300px;  /* Maak de grafiek minder hoog */
-    margin: 20px auto;
-    margin-right: auto;
-    margin-left: 50px; /* Extra marge aan de linkerkant */
+    width: 100%; /* De grafiek neemt standaard de volledige breedte van de container in */
+    height: 500px; /* Stel de hoogte van de grafiek in op 500px */
+    max-width: 1550px; /* Beperk de maximale breedte van de grafiek tot 1550px */
+    margin: 0 auto; /* Centreer de grafiek horizontaal door auto-marges */
+    padding: 20px; /* Voeg padding toe aan de grafiek */
 }
 
-/* Optionele stijlen voor visuele elementen */
-.chart-container div {
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
-}
 
 /* Container voor de kaarten */
 .cards-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 15px; /* Verhoog deze waarde om de afstand aan te passen */
+    display: flex; /* Flexbox gebruiken voor kaarten */
+    flex-wrap: wrap; /* Laat de kaarten naar een nieuwe rij gaan als er te weinig ruimte is */
+    justify-content: center; /* Centreer de kaarten in de container */
+    margin-top: 15px; /* Voeg ruimte boven de kaarten toe */
 }
 
 /* Stijlen voor individuele kaarten */
 .card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    padding: 20px;
-    text-align: center;
-    width: 150px; /* Pas de breedte aan naar wens */
-    font-size: 1.5em; /* Pas de tekstgrootte aan naar wens */
+    background-color: white; /* Witte achtergrond voor elke kaart */
+    border-radius: 10px; /* Rond de hoeken van de kaarten af */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtiele schaduw voor een 3D-effect */
+    margin: 10px; /* Voeg ruimte rondom elke kaart toe */
+    padding: 20px; /* Voeg ruimte binnen de kaart toe */
+    text-align: center; /* Zorg dat de tekst binnen de kaart gecentreerd is */
+    width: 150px; /* Stel een standaard breedte van 150px in voor de kaarten */
+    font-size: 1.2em; /* Stel een grotere tekstgrootte in voor de tekst binnen de kaarten */
 }
 
-#summatieve-cijfers-lijst {
-    text-align: center;
-    margin-top: 200px;  /* Verlaag deze waarde om meer afstand te creëren */
+/* Responsiveness voor tablets */
+/* Responsiveness voor tablets */
+@media (max-width: 1024px) { /* Pas de stijlen aan voor schermen kleiner dan 1024px (tablets) */
+    h1 {
+        font-size: 1.8em; /* Maak de hoofdtitel iets kleiner */
+    }
+
+    h2 {
+        font-size: 1em; /* Maak de subtitel kleiner */
+    }
+
+    .chart-container {
+        justify-content: center; /* Zorg ervoor dat de grafieken gecentreerd worden */
+        align-items: center; /* Verticaal centreren van de grafieken */
+    }
+
+    .chart {
+        flex: 1 1 100%; /* Laat de grafieken 100% breedte innemen */
+        max-width: 500px; /* Beperk de maximale breedte van de grafiek tot bijvoorbeeld 500px */
+        height: 250px; /* Verklein de hoogte van de grafieken naar 250px */
+        margin: 20px auto; /* Zorg ervoor dat de grafiek horizontaal wordt gecentreerd met auto-margin */
+    }
+
+    .card {
+        width: 120px; /* Maak de kaarten smaller (120px breed) */
+        font-size: 1em; /* Maak de tekst binnen de kaarten iets kleiner */
+    }
+}
+
+
+/* Responsiveness voor mobiele telefoons */
+@media (max-width: 768px) { /* Pas de stijlen aan voor schermen kleiner dan 768px (mobiele telefoons) */
+    h1 {
+        font-size: 1.5em; /* Verklein de hoofdtitel nog meer */
+    }
+
+    h2 {
+        font-size: 0.9em; /* Verklein de subtitel */
+    }
+
+    .chart {
+        flex: 1 1 100%; /* Laat de grafieken de volledige breedte innemen */
+        height: 200px; /* Verklein de hoogte van de grafieken naar 200px */
+    }
+
+    .card {
+        width: 100%; /* Laat de kaarten de volledige breedte innemen */
+        font-size: 0.9em; /* Maak de tekst binnen de kaarten nog iets kleiner */
+        margin: 5px; /* Verklein de marges rondom de kaarten */
+    }
 }
